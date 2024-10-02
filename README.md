@@ -57,3 +57,25 @@ To test:
   "traceparent": "00-113ad9c4e42b27583ae98ba698d54255-e3743e35ff56f219-01"
 }
 ```
+
+## Running the sample
+
+Initialize Dapr locally:
+
+```bash
+dapr init
+```
+
+Update the `pubsub.yaml` file with your Azure Service Bus Topic information and run both apps:
+
+#### Worker Actor
+
+```bash
+dapr run --app-id worker-actor --app-port 7100 --resources-path ../resources --log-level debug -- dotnet run
+```
+
+#### Worker Client
+
+```bash
+apr run --app-id worker-client --app-protocol http --app-port 5700 --dapr-http-port 5780 --dapr-grpc-port 5701 --resources-path ../resources -- dotnet run
+```
