@@ -37,3 +37,23 @@ WorkerClient is Web API with a route that is triggered by a Dapr subscription po
 
 To test:
 
+- Send the following payload to the topic `orders`:
+
+```json
+{
+  "topic": "orders",
+  "pubsubname": "actorpubsub",
+  "traceid": "00-113ad9c4e42b27583ae98ba698d54255-e3743e35ff56f219-01",
+  "tracestate": "",
+  "data": {
+    "orderId": "1"
+  },
+  "id": "5929aaac-a5e2-4ca1-859c-edfe73f11565",
+  "specversion": "1.0",
+  "datacontenttype": "application/json; charset=utf-8",
+  "source": "checkout",
+  "type": "com.dapr.event.sent",
+  "time": "2020-09-23T06:23:21Z",
+  "traceparent": "00-113ad9c4e42b27583ae98ba698d54255-e3743e35ff56f219-01"
+}
+```
