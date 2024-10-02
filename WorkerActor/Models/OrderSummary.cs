@@ -8,8 +8,5 @@ namespace WorkerActorN.Models
     {
         [JsonPropertyName("orderId")]
         public string OrderId { get; set; }
-
-         [JsonPropertyName("orderValue")]
-        public string OrderValue { get; set; }
     }
 }

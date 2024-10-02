@@ -1,7 +1,7 @@
 
 using Dapr.Client;
 using Microsoft.AspNetCore.Mvc;
-using WorkerClient.Models;
+using WorkerActorN.Models;
 using WorkerActorN.Actors;
 using Dapr.Actors;
 using Dapr.Actors.Client;
@@ -14,7 +14,7 @@ namespace WorkerClient.Controllers
     {
         private readonly ILogger<WorkerClientController> _logger;
 
-         private const string OrderTopic = "orders";
+        private const string OrderTopic = "orders";
         private const string PubSubName = "actorpubsub";
 
         private const string WorkerActorType = "WorkerActor";
@@ -33,21 +33,19 @@ namespace WorkerClient.Controllers
         {   
             if (orderSummary is not null) 
             {
-                _logger.LogInformation(
-                "Starting order completion for {orderId}.",
-                orderSummary.OrderId);
+                _logger.LogInformation("Starting order completion for {orderId}.",orderSummary.OrderId);
 
+                // Create a new actor id
                 var oId = orderSummary.OrderId.ToString();
                 var actorId = new ActorId(oId);
-
+                
+                // Create a proxy to the actor
                 var proxy = ActorProxy.Create<IWorkerActor>(actorId, WorkerActorType);
-                await proxy.SetStateWithEtag(oId);
-
-                var result = await proxy.GetDataAsync();
-                Console.WriteLine($"Data from actor: {result}");
-
-                return Ok();
-            
+                var result = await proxy.SetStateWithEtag(oId);
+                if (result)
+                {
+                    return Ok();
+                }
             }
             
             return BadRequest();
